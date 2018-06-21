@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <h1 class="navbar-brand">Test App</h1>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/profile">Profile<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <span class="navbar-text" style='margin-right: 15px;'><a href='/logoff'>Log Out</a></span>
+        </div>
+    </nav>
+    <div class='container'>
+        <div class="d-flex justify-content-between" style="padding: 35px;">
+            <h2>Edit Your Profile:</h2>
+            <a style='padding:15px; font-size: 14px' href="/home" class="badge badge-secondary">Return to Dashboard</a>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color:red">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <div class="container" style="padding:75px; padding-top: 10px;">
+            <div class='row' style="justify-content: space-between">
+                <div class='column'>
+                    <h3 style="margin-left:100px; margin-right: 100px">Edit Information</h3>
+                    <form action='/changeinfo' method='post'>
+                        {%csrf_token%}
+                        <div class="form-group">
+                            <label for="first_name">First Name:</label>
+                            <input name='first_name' type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name:</label>
+                            <input name='last_name' type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address:</label>
+                            <input name='email' type="text" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-info">Save</button>
+                    </form>
+                </div>
+                <div class='column'>
+                    <h3 style="margin-left:100px; margin-right: 100px">Change Password</h3>
+                    <form action='/changepass' method='POST'>
+                        {%csrf_token%}
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input name='password' type="password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm">Confirm Password:</label>
+                            <input name='confirm' type="password" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-info">Update Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class='container' style="margin-left: 75px; margin-right:75px">
+                <h3>Edit Description</h3>
+                <div class='contiainer'>
+                    <form action='/changedesc' method='post'>
+                        {%csrf_token%}
+                        <textarea name='desc' type="text" rows="5" style="width: 90%; margin:5px; border-radius: 3px;"></textarea>
+                        <button style='margin-bottom:50px' type="submit" class="btn btn-info">Save</button>
+                    </form>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

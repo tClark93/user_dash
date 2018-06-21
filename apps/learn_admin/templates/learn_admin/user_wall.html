@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <h1 class="navbar-brand">Test App</h1>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/profile">Profile<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <span class="navbar-text" style='margin-right: 15px;'><a href='/logoff'>Log Out</a></span>
+        </div>
+    </nav>
+    <div class='container'>
+        <div class="container" style='margin-top:15px;'>
+                <h3>{{profile.first_name}} {{profile.last_name}}</h3>
+                <table>
+                    <tr>
+                        <td>Registered at:</td>
+                        <td>{{profile.created_at}}</td>
+                    </tr>
+                    <tr>
+                        <td>User ID:</td>
+                        <td>{{profile.id}}</td> 
+                    </tr>
+                    <tr>
+                        <td>Email Address:</td>
+                        <td>{{profile.email}}</td> 
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td>{{profile.description}}</td> 
+                    </tr>
+            </table>
+        </div>
+        <br>
+        <h5>Leave a message:</h5>
+        <form action='/post' method='post'>
+            {%csrf_token%}
+            <div class='container' style="display: flex; justify-content: center">
+                <textarea name='post' type="text" placeholder="Enter something" rows="5" style="width: 90%; margin:5px; border-radius: 3px;"></textarea>
+            </div>
+            <div class='container' style="display: flex; justify-content: flex-end; margin:5px;  width: 95%;">
+                <button type="submit" class="btn btn-warning">Post</button>
+            </div>
+        </form>
+    </div>
+    <div class='container' style:'width: 95%; height:300px; overflow: auto;'>
+        {%for post in posts%}
+            {% if post.written_on.id == profile.id%}
+                <div class='container'>
+                    <p style="color: gray"> {{post.written_by.first_name}} {{post.written_by.last_name}} - <span>{{post.created_at}}</span></p>
+                    <div class='container' style:'overflow: auto'>
+                        <p style='font-size: 20px;'>{{post.content}}</p>
+                    </div>
+                    {%for comment in comments%}
+                        {%if post.id == comment.post_id%}
+                        <div class='container'>
+                            <p style="margin:1px; font-size:12px; color:gray;">{{comment.commented_by.first_name}} {{comment.commented_by.last_name}} - <span>{{comment.created_at}}</span></p>
+                            <div class='container'>
+                                <p style="margin:1px; font-size:14px;">{{comment.content}}</p>
+                            </div>
+                        </div>
+                        {%endif%}
+                    {%endfor%}
+                    <div class='container'>
+                        <form action='/comment' method='post'>
+                            {%csrf_token%}
+                            <textarea name='comment' type="text" placeholder="Enter something" style="width: 75%; border-radius: 3px;"></textarea>
+                            <input name='hidden' type="hidden" value="{{post.id}}">
+                            <button type="submit" class="btn btn-info" style='vertical-align: top;'>Comment</button>
+                        </form>
+                    </div>
+                </div>
+            {%endif%}
+        {%endfor%}
+    </div>
+</body>
+</html>

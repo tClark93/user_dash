@@ -1,0 +1,27 @@
+from django.conf.urls import url, include
+from . import views
+urlpatterns = [
+    url(r'^$', views.index),
+    url(r'^login$', views.login),
+    url(r'^loginuser$', views.loginUser),
+    url(r'^register$', views.register),
+    url(r'^registeruser$', views.registerUser),
+    url(r'^dashboard/admin$', views.adminDash),
+    url(r'^dashboard$', views.dashboard),
+    url(r'^users/show/(?P<id>\d+)$', views.userwall),
+    url(r'^users/edit/(?P<id>\d+)$', views.edit),
+    url(r'^users/remove/(?P<id>\d+)$', views.remove),
+    url(r'^users/new$', views.newuser),
+    url(r'^createnew$', views.createnew),
+    url(r'^post$', views.post),
+    url(r'^comment$', views.comment),
+    url(r'^home$', views.home),
+    url(r'^profile$', views.profile),
+    url(r'^changeinfo$', views.changeinfo),
+    url(r'^changepass$', views.changepass),
+    url(r'^changedesc$', views.changedesc),
+    url(r'^adminchangeinfo$', views.adminchangeinfo),
+    url(r'^adminchangepass$', views.adminchangepass),
+    url(r'^logoff$', views.logoff),
+    # url(r'^(?P<id>\d+)/destroy$', views.destroy),
+]
